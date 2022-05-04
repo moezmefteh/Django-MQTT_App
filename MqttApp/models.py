@@ -20,3 +20,4 @@ class temp(models.Model):
 class motor(models.Model):
     pub_date = models.DateTimeField()
     value = models.CharField(max_length=200)
+    cmdfromapp =models.CharField(max_length=2)

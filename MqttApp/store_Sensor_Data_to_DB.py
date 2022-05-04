@@ -56,7 +56,6 @@ def msg_Data_Handler(jsonData):
 	dbObj.add_del_update_db_record("insert into MqttApp_msg(pub_date,value) values (?,?)",[Data_and_Time,msg])
 	del dbObj
 	print ("Inserted msg Data into Database.")
-	print ("")
 
 # Function to save action to DB Table
 def action_Data_Handler(jsonData):
@@ -69,7 +68,6 @@ def action_Data_Handler(jsonData):
 	dbObj.add_del_update_db_record("insert into MqttApp_action(pub_date,value) values (?,?)",[Data_and_Time,action])
 	del dbObj
 	print ("Inserted action Data into Database.")
-	print ("")
 
 # Function to save temperature to DB Table
 def temp_Data_Handler(jsonData):
@@ -80,6 +78,18 @@ def temp_Data_Handler(jsonData):
 	#Push into DB Table
 	dbObj = DatabaseManager()
 	dbObj.add_del_update_db_record("insert into MqttApp_temp(pub_date,value) values (?,?)",[Data_and_Time,temp])
+	del dbObj
+	print ("Inserted temp Data into Database.")
+
+# Function to save motor to DB Table
+def motor_Data_Handler(jsonData):
+	tz_London = pytz.timezone('Europe/London')
+	Data_and_Time = datetime.now(tz_London)
+	temp = jsonData
+	
+	#Push into DB Table
+	dbObj = DatabaseManager()
+	dbObj.add_del_update_db_record("insert into MqttApp_motor(pub_date,value,cmdfromapp) values (?,?,?)",[Data_and_Time,temp,0])
 	del dbObj
 	print ("Inserted temp Data into Database.")
 	print ("")
@@ -95,5 +105,6 @@ def sensor_Data_Handler(Topic, jsonData):
 		action_Data_Handler(jsonData)
 	elif Topic == "temp":
 		temp_Data_Handler(jsonData)
-
+	elif Topic == "motor":
+		motor_Data_Handler(jsonData)
 #===============================================================

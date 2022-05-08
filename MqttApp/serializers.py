@@ -9,13 +9,6 @@ class PresionSerializer(serializers.ModelSerializer):
                   'value',
                   )
 
-class ActionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = action
-        fields = ('id',
-                  'pub_date',
-                  'value',
-                  )
 
 class MsgSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,6 +25,16 @@ class TempSerializer(serializers.ModelSerializer):
                   'pub_date',
                   'value',
                   )
+
+class ActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = action
+        fields = ('id',
+                  'pub_date',
+                  'value',
+                  'cmdfromapp',
+                  )
+                  
 class MotorSerializer(serializers.ModelSerializer):
     class Meta:
         model = motor

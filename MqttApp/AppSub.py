@@ -25,8 +25,6 @@ def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         sensor_Data_Handler(msg.topic, msg.payload)
-    client.subscribe("action")
-    client.on_message = on_message
     client.subscribe("presion")
     client.on_message = on_message
     client.subscribe("msg")
@@ -35,7 +33,9 @@ def subscribe(client: mqtt_client):
     client.on_message = on_message
     client.subscribe("motor")
     client.on_message = on_message
-
+    client.subscribe("action")
+    client.on_message = on_message
+    
 def run():
     
     client = connect_mqtt()

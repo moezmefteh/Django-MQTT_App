@@ -5,5 +5,6 @@ from django.urls.conf import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('MqttApp/', include('MqttApp.urls')),
+    path('', include('Auth.urls')),
 
 ]

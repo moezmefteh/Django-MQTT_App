@@ -15,4 +15,4 @@ class User(AbstractUser):
     is_staff=models.BooleanField(default=False)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['first_name','last_name','password','poste']

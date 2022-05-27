@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.generics import UpdateAPIView,CreateAPIView
+from rest_framework.generics import RetrieveUpdateAPIView,ListCreateAPIView
 from KeepAccess.settings import SECRET_KEY
 from Auth.models import *
 from Auth.serializers import *
@@ -10,17 +10,11 @@ from rest_framework.exceptions import AuthenticationFailed
 import jwt , datetime
 
 
-class RegisterView(CreateAPIView):
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        response = Response()
-        response.data = {
-            'message': 'success'
-        }
-        return response
-
+class UsersDefineAll(ListCreateAPIView):
+        queryset =User.objects.all()
+        serializer_class =UserSerializer
+        pagination_class = None
+        User.objects
 
 class LoginView(APIView):
     def post(self, request):
@@ -56,12 +50,19 @@ class LoginView(APIView):
 
         return response
 
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response()
+        response.delete_cookie('jwt')
+        response.data = {
+            'message': 'success'
+        }
+        return response
 
 class UserView(APIView):
 
     def get(self, request):
         token = request.COOKIES.get('jwt')
-
         if not token:
             raise AuthenticationFailed('Unauthenticated!')
 
@@ -74,35 +75,9 @@ class UserView(APIView):
         employes_serializer = UserSerializer(user) 
         return Response(employes_serializer.data) 
 
+class PropertiesUserUpdate(RetrieveUpdateAPIView):
+    serializer_class = UserUpdateSerializer
+    def get_queryset(self):
+        user = self.request.user
+        return User.objects.filter(username=self.kwargs.get('pk', None))
 
-class LogoutView(APIView):
-    def post(self, request):
-        response = Response()
-        response.delete_cookie('jwt')
-        response.data = {
-            'message': 'success'
-        }
-        return response
-##########################################################################
-
-class PropertiesUserUpdate(UpdateAPIView):
-    def put(self, request):
-
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated!')
-        try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated!!')
-
-        user = User.objects.get(username=payload['id']) 
-   
-        serializer_class = UserUpdateSerializer(user, data=request.data)
-        if serializer_class.is_valid():
-            serializer_class.save()
-            return Response(serializer_class.data) 
-        return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
-
-            

@@ -35,3 +35,9 @@ class MotorDefineLast(ListCreateAPIView):
         serializer_class =MotorSerializer
         pagination_class = None
         motor.objects
+
+class VanneDefineLast(ListCreateAPIView):
+        queryset =vanne.objects.all()
+        serializer_class =VanneSerializer
+        pagination_class = None
+        vanne.objects

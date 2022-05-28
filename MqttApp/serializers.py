@@ -12,7 +12,7 @@ class PresionSerializer(serializers.ModelSerializer):
 
 class MsgSerializer(serializers.ModelSerializer):
     class Meta:
-        model = action
+        model = msg
         fields = ('id',
                   'pub_date',
                   'value',
@@ -20,7 +20,7 @@ class MsgSerializer(serializers.ModelSerializer):
 
 class TempSerializer(serializers.ModelSerializer):
     class Meta:
-        model = action
+        model = temp
         fields = ('id',
                   'pub_date',
                   'value',
@@ -38,6 +38,15 @@ class ActionSerializer(serializers.ModelSerializer):
 class MotorSerializer(serializers.ModelSerializer):
     class Meta:
         model = motor
+        fields = ('id',
+                  'pub_date',
+                  'value',
+                  'cmdfromapp',
+                  )
+
+class VanneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = vanne
         fields = ('id',
                   'pub_date',
                   'value',

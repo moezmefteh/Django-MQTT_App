@@ -8,5 +8,6 @@ urlpatterns = [
     path('msg/last',MsgDefineLast.as_view() ),
     path('temp/last',TempDefineLast.as_view() ),
     path('motor/last',MotorDefineLast.as_view() ),
+    path('vanne/last',VanneDefineLast.as_view() ),
 
 ]

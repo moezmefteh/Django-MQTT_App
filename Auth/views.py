@@ -45,7 +45,8 @@ class LoginView(APIView):
         response.set_cookie(key='jwt', value=token, httponly=True)
 
         response.data = {
-            'jwt': token
+            'jwt': token,
+            'poste' : employes_serializer.data['poste']
         }
 
         return response

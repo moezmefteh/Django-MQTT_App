@@ -31,7 +31,7 @@ class LoginView(APIView):
 
         payload = {
             'id': user.username,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=240),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=120),
             'iat': datetime.datetime.utcnow()
         }
 

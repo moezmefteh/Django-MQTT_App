@@ -11,8 +11,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view()),
 
     path('update/<str:pk>/',PropertiesUserUpdate.as_view()),
-
-    
-
     
 ]

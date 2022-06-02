@@ -2,6 +2,8 @@ from datetime import datetime
 import pytz
 import sqlite3
 from pathlib import Path
+
+from MqttApp.models import motor
 # SQLite DB Name
 BASE_DIR = Path(__file__).resolve().parent.parent
 DB_Name =  BASE_DIR / 'db.sqlite3'
@@ -87,13 +89,26 @@ def action_Data_Handler(jsonData):
 def motor_Data_Handler(jsonData):
 	tz_London = pytz.timezone('Europe/London')
 	Data_and_Time = datetime.now(tz_London)
-	temp = jsonData
+	motor = jsonData
 	
 	#Push into DB Table
 	dbObj = DatabaseManager()
-	dbObj.add_del_update_db_record("insert into MqttApp_motor(pub_date,value,cmdfromapp) values (?,?,?)",[Data_and_Time,temp,0])
+	dbObj.add_del_update_db_record("insert into MqttApp_motor(pub_date,value,cmdfromapp) values (?,?,?)",[Data_and_Time,motor,0])
 	del dbObj
 	print ("Inserted temp Data into Database.")
+	print ("")
+
+# Function to save vanne to DB Table
+def vanne_Data_Handler(jsonData):
+	tz_London = pytz.timezone('Europe/London')
+	Data_and_Time = datetime.now(tz_London)
+	vanne = jsonData
+	
+	#Push into DB Table
+	dbObj = DatabaseManager()
+	dbObj.add_del_update_db_record("insert into MqttApp_vanne(pub_date,value,cmdfromapp) values (?,?,?)",[Data_and_Time,vanne,0])
+	del dbObj
+	print ("Inserted vanne Data into Database.")
 	print ("")
 #==========================================================
 # Master Function to Select DB Funtion based on MQTT Topic
@@ -109,4 +124,6 @@ def sensor_Data_Handler(Topic, jsonData):
 		motor_Data_Handler(jsonData)
 	elif Topic == "action":
 		action_Data_Handler(jsonData)
+	elif Topic == "vanne":
+		vanne_Data_Handler(jsonData)
 #===============================================================

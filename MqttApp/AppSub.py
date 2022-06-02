@@ -35,7 +35,8 @@ def subscribe(client: mqtt_client):
     client.on_message = on_message
     client.subscribe("motor")
     client.on_message = on_message
-
+    client.subscribe("vanne")
+    client.on_message = on_message
 
 
 def run():

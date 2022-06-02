@@ -47,6 +47,12 @@ id_action0=action0[0][0]
 value_action0=action0[0][1]
 command_action0=action0[0][2]
 
+cur.execute('SELECT id,value,cmdfromapp FROM MqttApp_vanne ORDER BY id DESC LIMIT 1')
+vanne0 = cur.fetchall()
+id_vanne0=vanne0[0][0]
+value_vanne0=vanne0[0][1]
+command_vanne0=vanne0[0][2]
+
 cur.close()
 #===============================================================
 client = connect_mqtt()
@@ -65,6 +71,18 @@ while(1):
         if((value_motor!=value_motor0) and (command_motor=='1')):
             publish(client,'motor/cmd',value_motor)
             value_motor0=value_motor
+
+    #function to publish vanne data if changed from app
+    cur.execute('SELECT id,value,cmdfromapp FROM MqttApp_vanne ORDER BY id DESC LIMIT 1')
+    myresult = cur.fetchall()
+    id_vanne=myresult[0][0]
+    if(id_vanne!=id_vanne0):
+        id_vanne0=id_vanne
+        value_vanne=myresult[0][1]
+        command_vanne=myresult[0][2]
+        if((value_vanne!=value_vanne0) and (command_vanne=='1')):
+            publish(client,'vanne/cmd',value_vanne)
+            value_vanne0=value_vanne
 
     #function to publish action data if changed from app
     cur.execute('SELECT id,value,cmdfromapp FROM MqttApp_action ORDER BY id DESC LIMIT 1')

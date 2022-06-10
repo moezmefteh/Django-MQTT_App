@@ -27,24 +27,27 @@ def publish(client):
     msg_count = 0
     action=0
     while True:
-        time.sleep(4)
+        time.sleep(3)
         action=not(action)
         msg = f"{msg_count}"
         temp=float(msg)+0.2
-        motor = int(action)
-        result = client.publish("presion", msg)
-        result = client.publish("action", action)
-        result = client.publish("temp", temp)
-        result = client.publish("motor", motor)
+        presion = int(action)
+        result = client.publish("presion/cmd", msg)
+        result = client.publish("action/cmd", msg)
+        result = client.publish("temp/cmd", msg)
+        result = client.publish("motor/cmd", action)
+        result = client.publish("vanne/cmd", action)
+        result = client.publish("msg/cmd", msg)
 
         # result: [0, 1]
         status = result[0]
         if status == 0:
-            print(f"Send `{msg}` to topic `{'presion'}`")
-            print(f"Send `{action}` to topic `{'action'}`")
-            print(f"Send `{temp}` to topic `{'temp'}`")
-            print(f"Send `{motor}` to topic `{'motor'}`")
-
+            print(f"Send `{presion}` to topic `{'presion/cmd'}`")
+            print(f"Send `{msg}` to topic `{'action/cmd'}`")
+            print(f"Send `{temp}` to topic `{'temp/cmd'}`")
+            print(f"Send `{action}` to topic `{'motor/cmd'}`")
+            print(f"Send `{action}` to topic `{'vanne/cmd'}`")
+            print(f"Send `{msg}` to topic `{'msg/cmd'}`")
         else:
             print(f"Failed to send messages")
         msg_count += 1

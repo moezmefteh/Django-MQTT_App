@@ -6,8 +6,8 @@ broker = 'localhost'
 port = 1883
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
-username = 'client11'
-password = 'hivemq11'
+username = 'client111'
+password = 'hivemq111'
 def connect_mqtt() -> mqtt_client:
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
@@ -24,7 +24,7 @@ def connect_mqtt() -> mqtt_client:
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        sensor_Data_Handler(msg.topic, msg.payload)
+        sensor_Data_Handler(msg.topic, msg.payload.decode())
     client.subscribe("presion")
     client.on_message = on_message
     client.subscribe("msg")
